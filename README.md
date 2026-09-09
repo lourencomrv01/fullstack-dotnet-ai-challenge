@@ -1,10 +1,10 @@
 # TaskFlow — Desafio Fullstack .NET · SDD + AI-First
 
-> ⏱️ **Timebox: 20 minutos.** Não é um teste de digitação. É um teste de **como você conduz a IA a partir de uma especificação**.
+> **Não é um teste de digitação.** É um teste de como você conduz a IA a partir de uma especificação.
 
 Você recebe uma aplicação que **já roda**: API .NET 8 (Minimal API) + um front simples servido pela própria API. Falta **uma fatia vertical**: a transição de status de uma tarefa.
 
-O que estamos avaliando não é se você sabe escrever um `switch`. É se você consegue, em 20 minutos:
+O que estamos avaliando não é se você sabe escrever um `switch`. É se você consegue:
 
 1. **Especificar antes de codar** (Spec-Driven Development);
 2. **Delegar a implementação à IA** (GitHub Copilot, Claude Code, Cursor…) a partir dessa spec;
@@ -17,7 +17,7 @@ O que estamos avaliando não é se você sabe escrever um `switch`. É se você 
 - [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
 - Uma ferramenta de IA de sua preferência: GitHub Copilot, Claude Code, Cursor, Windsurf, Gemini Code Assist…
 
-Verifique que o ambiente está OK **antes** de iniciar o cronômetro:
+Verifique que o ambiente está OK **antes** de começar:
 
 ```bash
 dotnet build && dotnet test
@@ -69,7 +69,7 @@ Transições válidas: `Todo → Doing`, `Doing → Done`, `Doing → Todo`, `Do
 
 ## O fluxo que queremos ver (nesta ordem)
 
-### 1. Spec primeiro — ~5 min
+### 1. Spec primeiro
 
 Preencha [`specs/002-status-transition.spec.md`](specs/002-status-transition.spec.md).
 
@@ -77,7 +77,7 @@ Use [`specs/001-create-task.spec.md`](specs/001-create-task.spec.md) como exempl
 
 > A spec é o artefato de maior peso na avaliação. Uma spec boa é ambígua em nada: contratos, códigos de status, casos de borda e o que está **fora** de escopo.
 
-### 2. IA depois — ~10 min
+### 2. IA depois
 
 Com a spec pronta, conduza sua ferramenta de IA para gerar a implementação **a partir dela** — não a partir de uma descrição improvisada no chat.
 
@@ -88,7 +88,7 @@ O repositório já vem configurado para isso:
 
 Registre **os prompts que você usou** em [`AI-LOG.md`](AI-LOG.md), incluindo o que a IA errou e como você corrigiu. Um log honesto vale mais que um log bonito.
 
-### 3. Verificação — ~5 min
+### 3. Verificação
 
 ```bash
 dotnet test
@@ -114,7 +114,7 @@ Os 6 testes verdes. Depois ligue o botão do front e confira no navegador que a 
 - ❌ Não altere os testes em `tests/`.
 - ❌ Não instale banco de dados nem troque a stack. O armazenamento em memória é proposital.
 - ℹ️ O CI deste repositório está **vermelho de propósito** — os 5 testes falhando são o seu ponto de partida. No seu PR ele deve ficar verde.
-- ⏱️ Se os 20 minutos acabarem com algo incompleto: **entregue mesmo assim** e escreva no PR o que faltou e por quê. Entregar parcial com diagnóstico honesto pontua melhor que estourar o tempo.
+- 📦 **Não é preciso entregar tudo.** Se algo ficar incompleto, entregue mesmo assim e escreva no PR o que faltou e por quê. Uma entrega parcial com diagnóstico honesto pontua melhor que uma entrega completa sem spec e sem log — saber negociar escopo faz parte do trabalho.
 
 ---
 

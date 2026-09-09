@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Timebox de 20 minutos. **Não espere tudo pronto.** O sinal que interessa é a **ordem de trabalho**
+**Não espere tudo pronto.** O sinal que interessa é a **ordem de trabalho**
 (spec → IA → verificação) e a **capacidade de julgar o output da IA** — não a quantidade de código.
 
 Um candidato que entrega uma spec excelente, 4 de 6 testes verdes e um AI-LOG honesto vale mais
@@ -34,7 +34,7 @@ que um que entrega 6 testes verdes colando um bloco gerado sem spec e sem log.
 | **Médio** | Prompts razoáveis mas descritivos ("crie um endpoint PATCH que muda status"); log preenchido de forma superficial |
 | **Fraco** | Log vazio, ou um único prompt genérico, ou negação de ter usado IA |
 
-⚠️ **Sinal de alerta:** log que só mostra sucesso. Em 20 minutos com IA, algo sempre sai errado. Um log sem nenhum atrito geralmente é log escrito no fim, de memória.
+⚠️ **Sinal de alerta:** log que só mostra sucesso. Trabalhando com IA sob pressão, algo sempre sai errado. Um log sem nenhum atrito geralmente é log escrito no fim, de memória.
 
 ### 3. Implementação — 25%
 
@@ -57,11 +57,11 @@ que um que entrega 6 testes verdes colando um bloco gerado sem spec e sem log.
 - Perguntou algo sobre o enunciado antes de começar.
 
 **Negativos**
-- Estourou muito o timebox para "terminar tudo" — em produção, esse é o candidato que não negocia escopo.
+- Insistiu em "terminar tudo" em vez de priorizar — em produção, esse é o candidato que não negocia escopo.
 - Reescreveu partes do scaffold que não precisavam mudar.
 - Instalou banco de dados ou trocou a stack apesar da regra explícita.
 
-## Roteiro sugerido de conversa (15 min pós-teste)
+## Roteiro sugerido de conversa (após o exercício)
 
 1. "Me mostre um prompt que **não** funcionou. O que você mudou?"
 2. "A IA gerou algo que você não teria escrito à mão? Manteve ou reescreveu? Por quê?"

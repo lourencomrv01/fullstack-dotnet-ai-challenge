@@ -1,6 +1,5 @@
 ## Desafio — <seu nome>
 
-**Tempo gasto:** <min>
 **Ferramenta de IA usada:**
 
 ### Estado da entrega
@@ -21,4 +20,4 @@
 
 ### O que ficou de fora (e por quê)
 
-<!-- Entregar parcial com diagnóstico honesto pontua melhor que estourar o timebox. -->
+<!-- Entregar parcial com diagnóstico honesto pontua melhor que entregar tudo sem spec e sem log. -->
