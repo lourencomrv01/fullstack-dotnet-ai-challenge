@@ -65,7 +65,7 @@ Formato do `WorkItem`:
 
 - Título com apenas espaços (`"   "`) → tratado como ausente → `400`.
 - Título duplicado → **permitido**; não há restrição de unicidade.
-- `assignee` como string vazia → normalizado para ausente para efeito das regras de conclusão (ver spec 002).
+- `assignee` como string vazia → tratado como ausente.
 - Corpo JSON malformado → `400`, tratado pelo pipeline do ASP.NET Core.
 
 ## 6. Critérios de aceite

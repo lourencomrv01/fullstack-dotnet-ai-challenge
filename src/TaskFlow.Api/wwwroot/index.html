@@ -34,9 +34,6 @@
   <script>
     const list = document.getElementById('list');
     const error = document.getElementById('error');
-    const NEXT = { Todo: 'Doing', Doing: 'Done', Done: 'Doing' };
-    const LABEL = { Todo: 'Iniciar', Doing: 'Concluir', Done: 'Reabrir' };
-
     async function load() {
       const tasks = await fetch('/api/tasks').then(r => r.json());
       list.innerHTML = '';
@@ -47,12 +44,6 @@
           <span class="badge">${task.status}</span>
           <span class="title">${task.title}</span>
           <span class="badge">${task.assignee ?? '—'}</span>`;
-        const button = document.createElement('button');
-        button.textContent = LABEL[task.status];
-        // TODO (candidato): ligar este botão ao endpoint PATCH /api/tasks/{id}/status
-        // e exibir a mensagem de erro da API em #error quando a transição for recusada.
-        button.onclick = () => alert('Não implementado');
-        li.append(button);
         list.append(li);
       }
     }

@@ -17,7 +17,7 @@ Se a spec estiver incompleta, **diga o que falta em vez de inventar comportament
 
 ## Regras deste repositório
 
-- **Nunca altere arquivos em `tests/`.** Eles são o contrato do desafio.
+- **Nunca altere arquivos em `tests/`.** Eles são o contrato.
 - Não adicione dependências novas, banco de dados ou camadas de abstração. O armazenamento em memória (`InMemoryStore`) é uma decisão deliberada.
 - Não troque Minimal API por Controllers.
 
@@ -27,7 +27,7 @@ Se a spec estiver incompleta, **diga o que falta em vez de inventar comportament
 - Endpoints retornam `Results.*` — `Results.Ok`, `Results.NotFound`, `Results.Problem(statusCode: …)`, `Results.ValidationProblem`.
 - Erros de negócio viram `ProblemDetails` com o status HTTP correto. Nada de `try/catch` genérico devolvendo `500`.
 - Enums são serializados como **string** (`JsonStringEnumConverter` já está configurado).
-- Máquinas de estado se expressam em um único `switch` de expressão sobre a tupla `(estadoAtual, estadoAlvo)` — legível de cima a baixo, não espalhado em `if`s aninhados.
+- Regras de negócio ficam concentradas e legíveis de cima a baixo — um `switch` de expressão ou um método de validação dedicado, não `if`s aninhados espalhados pelo endpoint.
 
 ## Ao gerar uma implementação
 

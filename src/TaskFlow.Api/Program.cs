@@ -17,7 +17,7 @@ app.UseStaticFiles();
 var store = app.Services.GetRequiredService<InMemoryStore>();
 store.Add(new WorkItem { Title = "Configurar ambiente", Status = WorkItemStatus.Done, Assignee = "ana", CompletedAt = DateTimeOffset.UtcNow });
 store.Add(new WorkItem { Title = "Escrever a spec da feature", Status = WorkItemStatus.Doing, Assignee = "bruno" });
-store.Add(new WorkItem { Title = "Implementar transicao de status", Status = WorkItemStatus.Todo });
+store.Add(new WorkItem { Title = "Revisar o backlog", Status = WorkItemStatus.Todo });
 
 var api = app.MapGroup("/api/tasks");
 
@@ -41,14 +41,13 @@ api.MapPost("/", (CreateTaskRequest request, InMemoryStore db) =>
 });
 
 // ---------------------------------------------------------------------------
-// TODO (candidato): implemente aqui o endpoint de transicao de status.
+// A feature que voce vai implementar sera entregue no inicio da sessao:
+// um arquivo de testes (o contrato executavel) e um stub de spec em specs/.
 //
-//   PATCH /api/tasks/{id}/status
+// A ordem de trabalho esperada e sempre a mesma:
+//   1. preencher a spec,  2. conduzir a IA a partir dela,  3. verificar com dotnet test.
 //
-// NAO comece pelo codigo. Comece escrevendo a spec em
-// specs/002-status-transition.spec.md (use specs/000-template.spec.md).
-// Depois use a IA para derivar a implementacao a partir da spec.
-// As regras de negocio estao definidas em tests/TaskFlow.Api.Tests.
+// Ate la, nao ha nada a fazer aqui alem de garantir que o ambiente roda.
 // ---------------------------------------------------------------------------
 
 app.Run();

@@ -1,14 +1,15 @@
-# Guia de avaliação (para o avaliador)
+# Guia de avaliação
 
-> Documento público de propósito: o candidato deve saber exatamente o que está sendo medido.
+> Documento público de propósito: você deve saber exatamente o que está sendo medido.
+> O detalhamento específico da feature fica com o avaliador — o que está aqui vale para qualquer uma.
 
-## Contexto
+## O que interessa
 
-**Não espere tudo pronto.** O sinal que interessa é a **ordem de trabalho**
-(spec → IA → verificação) e a **capacidade de julgar o output da IA** — não a quantidade de código.
+**Não esperamos tudo pronto.** O sinal que buscamos é a **ordem de trabalho** (spec → IA → verificação)
+e a **capacidade de julgar o output da IA** — não a quantidade de código.
 
-Um candidato que entrega uma spec excelente, 4 de 6 testes verdes e um AI-LOG honesto vale mais
-que um que entrega 6 testes verdes colando um bloco gerado sem spec e sem log.
+Uma spec excelente, parte dos testes verdes e um `AI-LOG.md` honesto vale mais que todos os testes
+verdes obtidos colando um bloco gerado, sem spec e sem log.
 
 ## Rubrica
 
@@ -16,55 +17,56 @@ que um que entrega 6 testes verdes colando um bloco gerado sem spec e sem log.
 
 | Nível | Sinal |
 |---|---|
-| **Forte** | Contratos explícitos (status HTTP por situação); regras numeradas e testáveis; seção *Fora de escopo* preenchida com decisões reais; **identificou ambiguidades do enunciado e as resolveu por escrito** |
-| **Médio** | Regras corretas mas parafraseando o README; casos de borda genéricos; *Fora de escopo* vazio ou trivial |
-| **Fraco** | Spec preenchida depois do código, ou copiada da tabela do README, ou em branco |
+| **Forte** | Contratos explícitos (status HTTP por situação); regras numeradas e testáveis; seção *Fora de escopo* com decisões reais; **identificou ambiguidades do enunciado e as resolveu por escrito** |
+| **Médio** | Regras corretas, mas parafraseando o enunciado; casos de borda genéricos; *Fora de escopo* vazio ou trivial |
+| **Fraco** | Spec preenchida depois do código, ou copiada do enunciado, ou em branco |
 
-**Ambiguidades plantadas no enunciado** (o candidato forte deve notar ao menos uma):
-
-1. **Transição para o mesmo status** (`Doing → Doing`) não está especificada. É `200` idempotente ou `409`? Qualquer decisão é aceita **se estiver documentada**. Nenhum teste cobre isso — de propósito.
-2. **`assignee` vazio vs. `null`.** A regra R3 diz "sem responsável". Uma string `"  "` conta como sem responsável? A spec 001 dá a pista, mas exige que o candidato conecte os pontos.
-3. **`Doing → Todo`** é listada como válida, mas o enunciado não diz o que acontece com `completedAt` — a tarefa nunca foi concluída, então não há o que limpar. Trivial, mas quem escreve a matriz completa de transições nota.
+> 💡 **O enunciado que você receber terá ambiguidades deliberadas** — situações que os testes não
+> cobrem e que o texto não decide. Encontrá-las e **documentar a sua decisão** é o que separa
+> o nível forte do médio. Qualquer decisão razoável é aceita; o que não é aceito é não perceber.
 
 ### 2. Condução da IA — 30%
 
 | Nível | Sinal |
 |---|---|
-| **Forte** | Prompts que **referenciam a spec e os testes como fonte de verdade** ("implemente conforme `specs/002…`, os testes em `StatusTransitionTests.cs` são o contrato"); iteração visível; log mostra um erro da IA que o candidato **pegou** |
-| **Médio** | Prompts razoáveis mas descritivos ("crie um endpoint PATCH que muda status"); log preenchido de forma superficial |
-| **Fraco** | Log vazio, ou um único prompt genérico, ou negação de ter usado IA |
+| **Forte** | Prompts que **referenciam a spec e os testes como fonte de verdade**; iteração visível; o log mostra um erro da IA que você **pegou** |
+| **Médio** | Prompts razoáveis, mas descritivos ("crie um endpoint que faz X"); log superficial |
+| **Fraco** | Log vazio, um único prompt genérico, ou não ter usado IA |
 
-⚠️ **Sinal de alerta:** log que só mostra sucesso. Trabalhando com IA sob pressão, algo sempre sai errado. Um log sem nenhum atrito geralmente é log escrito no fim, de memória.
+> ⚠️ **Log que só mostra acerto é sinal de alerta.** Trabalhando com IA, algo sempre sai errado.
+> Um log sem nenhum atrito costuma ser log escrito no fim, de memória.
 
 ### 3. Implementação — 25%
 
-- `dotnet test` verde (6/6). **Parcial pontua proporcionalmente.**
-- Testes **não** foram alterados (verifique o diff em `tests/`).
-- Código idiomático de Minimal API: retorno via `Results.*`, `Problem`/`ProblemDetails` para erros, sem `try/catch` genérico engolindo exceção.
-- A matriz de transições está em um só lugar, legível — não espalhada em `if`s aninhados.
-- **Ordem das validações importa:** `404` (não existe) deve vir antes de `409` (transição inválida)? Ou o `400` de status inválido vem antes de tudo? Não há resposta única; observe se o candidato pensou nisso.
+- Testes do contrato verdes. **Parcial pontua proporcionalmente.**
+- Os testes recebidos **não** foram alterados.
+- Código idiomático de Minimal API: retorno via `Results.*`, `ProblemDetails` para erros de negócio, sem `try/catch` genérico engolindo exceção.
+- Regras de negócio concentradas e legíveis, não espalhadas em `if`s aninhados.
+- **A ordem das validações foi pensada** (qual erro ganha quando duas condições falham ao mesmo tempo?).
 
 ### 4. Fatia vertical — 10%
 
-- Botão do front chamando o `PATCH` e recarregando a lista.
-- Erro da API (`409`/`422`) exibido ao usuário em `#error`, não engolido no console.
+- O front exercita o que você implementou no backend.
+- Erro devolvido pela API aparece para o usuário, não morre no console.
 
-## Sinais fora da rubrica (anotar, não pontuar diretamente)
+## Sinais fora da rubrica
 
 **Positivos**
 - Commits separando `spec:` de `feat:` — mostra que a ordem de trabalho foi real, não encenada.
-- PR descrevendo o que ficou de fora e por quê.
-- Perguntou algo sobre o enunciado antes de começar.
+- Dizer o que ficou de fora e por quê.
+- Perguntar algo sobre o enunciado antes de começar.
 
 **Negativos**
-- Insistiu em "terminar tudo" em vez de priorizar — em produção, esse é o candidato que não negocia escopo.
-- Reescreveu partes do scaffold que não precisavam mudar.
-- Instalou banco de dados ou trocou a stack apesar da regra explícita.
+- Insistir em "terminar tudo" em vez de priorizar.
+- Reescrever partes do scaffold que não precisavam mudar.
+- Adicionar banco de dados ou trocar a stack apesar da regra explícita.
 
-## Roteiro sugerido de conversa (após o exercício)
+## As perguntas da conversa
 
-1. "Me mostre um prompt que **não** funcionou. O que você mudou?"
-2. "A IA gerou algo que você não teria escrito à mão? Manteve ou reescreveu? Por quê?"
-3. "Que ambiguidade do enunciado você encontrou?" *(a melhor pergunta do roteiro)*
-4. "Se isso fosse para produção com 10 mil tarefas e múltiplos usuários, o que quebra primeiro?" *(esperado: armazenamento em memória, concorrência no `WorkItem`, ausência de otimistic locking)*
-5. "Onde você **não** deixaria a IA decidir sozinha?"
+Publicadas de propósito. Pense nelas enquanto trabalha:
+
+1. Me mostre um prompt que **não** funcionou. O que você mudou?
+2. A IA gerou algo que você não teria escrito à mão? Manteve ou reescreveu? Por quê?
+3. **Que ambiguidade do enunciado você encontrou?**
+4. Se isso fosse para produção com muitos usuários simultâneos, o que quebra primeiro?
+5. Onde você **não** deixaria a IA decidir sozinha neste código?

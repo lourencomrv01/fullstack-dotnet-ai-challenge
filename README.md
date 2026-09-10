@@ -2,131 +2,109 @@
 
 > **Não é um teste de digitação.** É um teste de como você conduz a IA a partir de uma especificação.
 
-Você recebe uma aplicação que **já roda**: API .NET 8 (Minimal API) + um front simples servido pela própria API. Falta **uma fatia vertical**: a transição de status de uma tarefa.
+Este repositório é a **preparação** para a sessão. Ele não contém o desafio — contém o ambiente, o método e os critérios de avaliação. **A feature que você vai implementar é entregue no início da sessão.**
 
-O que estamos avaliando não é se você sabe escrever um `switch`. É se você consegue:
-
-1. **Especificar antes de codar** (Spec-Driven Development);
-2. **Delegar a implementação à IA** (GitHub Copilot, Claude Code, Cursor…) a partir dessa spec;
-3. **Verificar** o que a IA produziu contra um contrato executável.
+Leia tudo com antecedência e deixe a máquina pronta. Nada aqui é surpresa: quanto melhor você chegar preparado, mais a sessão fala sobre o seu raciocínio e menos sobre instalação de SDK.
 
 ---
 
-## Pré-requisitos
+## 1. Prepare o ambiente (faça isto antes)
 
-- [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
-- Uma ferramenta de IA de sua preferência: GitHub Copilot, Claude Code, Cursor, Windsurf, Gemini Code Assist…
+Você vai precisar de:
 
-Verifique que o ambiente está OK **antes** de começar:
+- [.NET SDK 8.0 ou superior](https://dotnet.microsoft.com/download)
+- Uma ferramenta de IA de sua preferência, **já autenticada e funcionando**: GitHub Copilot, Claude Code, Cursor, Windsurf, Gemini Code Assist… a que você usa no dia a dia
+
+Clone e valide:
 
 ```bash
 dotnet build && dotnet test
 ```
 
-Esperado: **1 teste passa, 5 falham.** É esse o seu ponto de partida.
+Esperado: **3 testes verdes.** São testes de fumaça — existem só para provar que o ambiente está de pé.
 
-Para ver a aplicação:
+Suba a aplicação:
 
 ```bash
 dotnet run --project src/TaskFlow.Api
 ```
 
-Abra a URL exibida no console (algo como `http://localhost:5xxx`).
+Abra a URL do console (algo como `http://localhost:5xxx`). Você verá um quadro de tarefas simples: lista o que existe e cria tarefas novas.
 
----
+> Se algo falhar aqui, resolva **antes** da sessão. Se não conseguir, nos avise — a gente ajuda.
 
-## A tarefa
+## 2. Entenda como trabalhamos
 
-### O que falta
+Nossos times usam **Spec-Driven Development** e desenvolvimento **AI-first**. Na prática, a ordem é sempre:
 
-**Backend** — o endpoint não existe:
+> **spec → contrato executável → implementação**, nunca o inverso.
 
-```
-PATCH /api/tasks/{id}/status
-Content-Type: application/json
-
-{ "status": "Doing" }
-```
-
-**Frontend** — em `src/TaskFlow.Api/wwwroot/index.html`, o botão de cada tarefa está desligado (`alert('Não implementado')`).
-
-### As regras de negócio
-
-O contrato executável está em [`tests/TaskFlow.Api.Tests/StatusTransitionTests.cs`](tests/TaskFlow.Api.Tests/StatusTransitionTests.cs). **Não altere as asserções** — ajuste a implementação.
-
-| # | Regra | Resposta |
-|---|-------|----------|
-| R1 | `Todo → Doing` é válido | `200` com o item atualizado |
-| R2 | `Todo → Done` é proibido (não se pula etapa) | `409` |
-| R3 | Concluir tarefa sem responsável é proibido | `422` |
-| R4 | Concluir preenche `completedAt`; reabrir (`Done → Doing`) limpa | `200` |
-| R5 | Status desconhecido (ex.: `"Arquivado"`) | `400` |
-| R6 | Id inexistente | `404` |
-
-Transições válidas: `Todo → Doing`, `Doing → Done`, `Doing → Todo`, `Done → Doing`.
-
----
-
-## O fluxo que queremos ver (nesta ordem)
-
-### 1. Spec primeiro
-
-Preencha [`specs/002-status-transition.spec.md`](specs/002-status-transition.spec.md).
-
-Use [`specs/001-create-task.spec.md`](specs/001-create-task.spec.md) como exemplo — é a spec da feature que **já está implementada** no repositório, escrita no mesmo formato que esperamos de você.
-
-> A spec é o artefato de maior peso na avaliação. Uma spec boa é ambígua em nada: contratos, códigos de status, casos de borda e o que está **fora** de escopo.
-
-### 2. IA depois
-
-Com a spec pronta, conduza sua ferramenta de IA para gerar a implementação **a partir dela** — não a partir de uma descrição improvisada no chat.
+E, sobre a IA: **use à vontade. É o ponto do exercício — não usar é o erro.** O que avaliamos é a sua capacidade de conduzir e auditar a ferramenta, não a sua memória de sintaxe.
 
 O repositório já vem configurado para isso:
 
 - [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — contexto automático para o GitHub Copilot
 - [`CLAUDE.md`](CLAUDE.md) — contexto automático para o Claude Code
 
-Registre **os prompts que você usou** em [`AI-LOG.md`](AI-LOG.md), incluindo o que a IA errou e como você corrigiu. Um log honesto vale mais que um log bonito.
+Vale abrir sua ferramenta neste repositório antes da sessão só para confirmar que ela está lendo esses arquivos.
 
-### 3. Verificação
+## 3. Estude o formato de spec
 
-```bash
-dotnet test
-```
+Leia [`specs/001-create-task.spec.md`](specs/001-create-task.spec.md). É a spec da feature que **já está implementada** aqui (`POST /api/tasks`), escrita exatamente no formato que esperamos de você.
 
-Os 6 testes verdes. Depois ligue o botão do front e confira no navegador que a mensagem de erro da API aparece quando a transição é recusada.
+O template em branco está em [`specs/000-template.spec.md`](specs/000-template.spec.md).
 
----
+> A spec é o artefato de maior peso na avaliação. Uma spec boa não é longa — é **inequívoca**: contratos, códigos de status, casos de borda e o que está deliberadamente **fora** de escopo.
 
-## Entrega
+## 4. Conheça o log de IA
 
-1. Faça um **fork** deste repositório;
-2. Commits pequenos e descritivos — o histórico conta a sua história (ex.: `spec: transição de status`, depois `feat: PATCH /status`);
-3. Abra um **Pull Request** para este repositório com o título `Desafio — <seu nome>`;
-4. Na descrição do PR, responda em 3 linhas: **onde a IA te ajudou mais, onde ela te atrapalhou, e o que você teria feito diferente com mais tempo.**
+Durante a sessão você vai registrar os prompts que usou em [`AI-LOG.md`](AI-LOG.md). Dê uma olhada no formato agora.
 
----
+Uma coisa importante: **queremos um log honesto, não um log bonito.** Quando a IA errar, mostre o erro e como você percebeu. Saber desconfiar do output é exatamente a habilidade que estamos medindo.
 
-## Regras
+## 5. Saiba como será avaliado
 
-- ✅ **Use IA à vontade.** É o ponto do exercício. Não usar é o erro.
-- ✅ Vale pesquisar, consultar docs, usar qualquer editor.
-- ❌ Não altere os testes em `tests/`.
-- ❌ Não instale banco de dados nem troque a stack. O armazenamento em memória é proposital.
-- ℹ️ O CI deste repositório está **vermelho de propósito** — os 5 testes falhando são o seu ponto de partida. No seu PR ele deve ficar verde.
-- 📦 **Não é preciso entregar tudo.** Se algo ficar incompleto, entregue mesmo assim e escreva no PR o que faltou e por quê. Uma entrega parcial com diagnóstico honesto pontua melhor que uma entrega completa sem spec e sem log — saber negociar escopo faz parte do trabalho.
-
----
-
-## Como você será avaliado
-
-O detalhamento está em [`EVALUATION.md`](EVALUATION.md). Resumo:
+Está tudo aberto em [`EVALUATION.md`](EVALUATION.md) — inclusive as perguntas que faremos depois do exercício. Não há pegadinha.
 
 | Critério | Peso |
 |---|---|
-| Qualidade da spec (clareza, contratos, casos de borda) | 35% |
-| Condução da IA (prompts, iteração, log) | 30% |
-| Implementação (testes verdes, código idiomático) | 25% |
+| Qualidade da spec | 35% |
+| Condução da IA | 30% |
+| Implementação | 25% |
 | Fatia vertical completa (front ligado ao back) | 10% |
 
-Boa sorte. 🚀
+---
+
+## Como será a sessão
+
+Uma conversa remota com a tela compartilhada. Você recebe o enunciado da feature — um arquivo de testes que é o contrato executável e um stub de spec — e trabalha nela normalmente, com sua IA, do seu jeito. Depois conversamos sobre o que você fez.
+
+**Não esperamos que tudo fique pronto.** Uma entrega parcial com um diagnóstico honesto do que faltou vale mais do que uma entrega completa sem spec e sem log. Priorizar faz parte.
+
+## Regras
+
+- ✅ Use IA à vontade, consulte documentação, use o editor que quiser.
+- ❌ Não altere os arquivos de teste que você receber — eles são o contrato.
+- ❌ Não adicione banco de dados nem troque a stack. O armazenamento em memória é proposital.
+
+## O que NÃO avaliamos
+
+- Algoritmo, estrutura de dados, whiteboard.
+- Memória de sintaxe — consulte o que precisar.
+- Volume de código produzido.
+
+---
+
+## Estrutura
+
+```
+src/TaskFlow.Api/
+  Program.cs              # endpoints (Minimal API)
+  Domain/WorkItem.cs      # modelo e enum de status
+  Storage/InMemoryStore.cs
+  wwwroot/index.html      # front em HTML + JS puro, sem build step
+specs/                    # especificações
+tests/                    # contrato executável
+```
+
+Até lá. 🚀

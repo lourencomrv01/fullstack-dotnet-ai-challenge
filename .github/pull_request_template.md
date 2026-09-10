@@ -4,11 +4,11 @@
 
 ### Estado da entrega
 
-- [ ] `specs/002-status-transition.spec.md` preenchida **antes** do código
+- [ ] Spec da feature preenchida em `specs/` **antes** do código
 - [ ] `AI-LOG.md` preenchido
-- [ ] `dotnet test` → ___ / 6 testes verdes
-- [ ] Botão do front ligado ao `PATCH`
-- [ ] Testes em `tests/` não foram alterados
+- [ ] `dotnet test` → ___ testes verdes de ___
+- [ ] Front exercitando o que foi implementado no backend
+- [ ] Os testes recebidos não foram alterados
 
 ### Três linhas
 
