@@ -87,12 +87,6 @@ Uma conversa remota com a tela compartilhada. Você recebe o enunciado da featur
 - ❌ Não altere os arquivos de teste que você receber — eles são o contrato.
 - ❌ Não adicione banco de dados nem troque a stack. O armazenamento em memória é proposital.
 
-## O que NÃO avaliamos
-
-- Algoritmo, estrutura de dados, whiteboard.
-- Memória de sintaxe — consulte o que precisar.
-- Volume de código produzido.
-
 ---
 
 ## Estrutura
